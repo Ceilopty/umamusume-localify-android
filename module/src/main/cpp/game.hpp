@@ -17,12 +17,14 @@ namespace Game {
         JAP,
         KOR,
         TWN,
+        CHN,
     };
 
     enum class Store {
         Google,
         // Only Twn
         Official,
+        BiliBili,
         // Ex. OneStore, MyCard...
         Other
     };
@@ -35,6 +37,7 @@ namespace Game {
     inline auto GamePackageNameTwnGoogle = "com.komoe.kmumamusumegp"s;
     inline auto GamePackageNameTwnMyCard = "com.komoe.kmumamusumemc"s;
     inline auto GamePackageNameTwnOfficial = "com.komoe.umamusumeofficial"s;
+    inline auto GamePackageNameChnBili = "com.bilibili.umamusu"s;
 
     static bool IsPackageNameEqualsByGameRegion(const char *pkgNm, Region gameRegion) {
         string pkgNmStr = string(pkgNm);
@@ -53,6 +56,13 @@ namespace Game {
                 if (pkgNmStr == GamePackageNameKor) {
                     currentGameRegion = Region::KOR;
                     currentGameStore = Store::Google;
+                    return true;
+                }
+                break;
+            case Region::CHN:
+                if (pkgNmStr == GamePackageNameChnBili) {
+                    currentGameRegion = Region::CHN;
+                    currentGameStore = Store::BiliBili;
                     return true;
                 }
                 break;
@@ -83,6 +93,8 @@ namespace Game {
             return GamePackageName;
         if (gameRegion == Region::KOR)
             return GamePackageNameKor;
+        if (gameRegion == Region::CHN)
+            return GamePackageNameChnBili;
         if (gameRegion == Region::TWN) {
             switch (gameStore) {
                 case Store::Google:
@@ -116,6 +128,14 @@ namespace Game {
                         "/cache").data(),
                 F_OK) == 0) {
             return Region::KOR;
+        }
+        if (access(
+                "/data/data/"s
+                        .append(GetPackageNameByGameRegionAndGameStore(Region::CHN,
+                                                                       Store::BiliBili)).append(
+                        "/cache").data(),
+                F_OK) == 0) {
+            return Region::CHN;
         }
         if (access(
                 "/data/data/"s

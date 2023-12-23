@@ -50,6 +50,7 @@ bool isGame(const char *pkgNm) {
         return false;
     if (Game::IsPackageNameEqualsByGameRegion(pkgNm, Game::Region::JAP) ||
         Game::IsPackageNameEqualsByGameRegion(pkgNm, Game::Region::KOR) ||
+        Game::IsPackageNameEqualsByGameRegion(pkgNm, Game::Region::CHN) ||
         Game::IsPackageNameEqualsByGameRegion(pkgNm, Game::Region::TWN)) {
         LOGI("detect package: %s", pkgNm);
         return true;

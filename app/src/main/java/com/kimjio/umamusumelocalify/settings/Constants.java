@@ -11,6 +11,7 @@ public final class Constants {
     public static final String PKG_TWN_GOOGLE = "com.komoe.kmumamusumegp";
     public static final String PKG_TWN_MY_CARD = "com.komoe.kmumamusumemc";
     public static final String PKG_TWN_OFFICIAL = "com.komoe.umamusumeofficial";
+    public static final String PKG_CHN_BILI = "com.bilibili.umamusu";
 
     public static final List<String> targetPackageNames = List.of(
             PKG_JAP,
@@ -18,7 +19,8 @@ public final class Constants {
             PKG_KOR,
             PKG_TWN_GOOGLE,
             PKG_TWN_MY_CARD,
-            PKG_TWN_OFFICIAL
+            PKG_TWN_OFFICIAL,
+            PKG_CHN_BILI
             // TODO Package by region
     );
 }

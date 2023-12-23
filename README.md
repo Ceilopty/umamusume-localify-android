@@ -58,3 +58,6 @@ When `maxFps` is set to unlimited, the frame of the game is played from 60 FPS t
 ## Build
 1. Download the source code
 2. Use Android Studio to run the gradle task `:module:assembleRelease` to compile, the zip package will be generated in the `out` folder
+3. For Windows, delete `-Djava.ext.dirs="%frameworkdir%"` in the bottom line of `%SDK%/buildtools/33.0.2/d8.bat`
+
+ps Config your firewall to work with URA.

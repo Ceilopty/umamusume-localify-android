@@ -20,6 +20,9 @@ if [ $ABI = "x86" ]; then
   if [ -d "/data/data/com.komoe.umamusumeofficial" ]; then
     umount -f /data/data/com.komoe.umamusumeofficial/armeabi-v7a.so
     rm /data/data/com.komoe.umamusumeofficial/armeabi-v7a.so
+  if [ -d "/data/data/com.bilibili.umamusu" ]; then
+    umount -f /data/data/com.bilibili.umamusu/armeabi-v7a.so
+    rm /data/data/com.bilibili.umamusu/armeabi-v7a.so
   fi
 elif [ $ABI = "x86_64" ]; then
   if [ -d "/data/data/jp.co.cygames.umamusume" ]; then
@@ -51,6 +54,11 @@ elif [ $ABI = "x86_64" ]; then
     umount -f /data/data/com.komoe.umamusumeofficial/armeabi-v7a.so
     rm /data/data/com.komoe.umamusumeofficial/arm64-v8a.so
     rm /data/data/com.komoe.umamusumeofficial/armeabi-v7a.so
+  if [ -d "/data/data/com.bilibili.umamusu" ]; then
+    umount -f /data/data/com.bilibili.umamusu/arm64-v8a.so
+    umount -f /data/data/com.bilibili.umamusu/armeabi-v7a.so
+    rm /data/data/com.bilibili.umamusu/arm64-v8a.so
+    rm /data/data/com.bilibili.umamusu/armeabi-v7a.so
   fi
 fi
 
