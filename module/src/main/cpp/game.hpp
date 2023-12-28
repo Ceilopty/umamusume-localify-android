@@ -21,6 +21,8 @@ namespace Game {
 
     enum class Store {
         Google,
+        // Only Twn
+        Official,
         // Ex. OneStore, MyCard...
         Other
     };
@@ -32,6 +34,7 @@ namespace Game {
     inline auto GamePackageNameKor = "com.kakaogames.umamusume"s;
     inline auto GamePackageNameTwnGoogle = "com.komoe.kmumamusumegp"s;
     inline auto GamePackageNameTwnMyCard = "com.komoe.kmumamusumemc"s;
+    inline auto GamePackageNameTwnOfficial = "com.komoe.umamusumeofficial"s;
 
     static bool IsPackageNameEqualsByGameRegion(const char *pkgNm, Region gameRegion) {
         string pkgNmStr = string(pkgNm);
@@ -62,6 +65,10 @@ namespace Game {
                     currentGameRegion = Region::TWN;
                     currentGameStore = Store::Other;
                     return true;
+                } else if (pkgNmStr == GamePackageNameTwnOfficial){
+                    currentGameRegion = Region::TWN;
+                    currentGameStore = Store::Official;
+                    return true;
                 }
                 break;
             case Region::UNKNOWN:
@@ -77,10 +84,14 @@ namespace Game {
         if (gameRegion == Region::KOR)
             return GamePackageNameKor;
         if (gameRegion == Region::TWN) {
-            if (gameStore == Store::Other) {
-                return GamePackageNameTwnMyCard;
+            switch (gameStore) {
+                case Store::Google:
+                    return GamePackageNameTwnGoogle;
+                case Store::Official:
+                    return GamePackageNameTwnOfficial;
+                case Store::Other:
+                    return GamePackageNameTwnMyCard;
             }
-            return GamePackageNameTwnGoogle;
         }
         return "";
     }
@@ -121,6 +132,15 @@ namespace Game {
                         "/cache").data(),
                 F_OK) == 0) {
             currentGameStore = Store::Other;
+            return Region::TWN;
+        }
+        if (access(
+                "/data/data/"s
+                        .append(GetPackageNameByGameRegionAndGameStore(Region::TWN,
+                                                                       Store::Official)).append(
+                        "/cache").data(),
+                F_OK) == 0) {
+            currentGameStore = Store::Official;
             return Region::TWN;
         }
 

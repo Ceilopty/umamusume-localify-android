@@ -44,6 +44,9 @@ if [ "$ABI" = "x86" ]; then
   if [ -d "/data/data/com.komoe.kmumamusumemc" ]; then
     copy_lib "com.komoe.kmumamusumemc"
   fi
+  if [ -d "/data/data/com.komoe.umamusumeofficial" ]; then
+    copy_lib "com.komoe.umamusumeofficial"
+  fi
 elif [ "$ABI" = "x86_64" ]; then
   if [ -d "/data/data/jp.co.cygames.umamusume" ]; then
     INSTALLED_ABI=$(get_installed_abi "jp.co.cygames.umamusume")
@@ -75,6 +78,14 @@ elif [ "$ABI" = "x86_64" ]; then
       copy_lib "com.komoe.kmumamusumemc"
       else
       copy_lib64 "com.komoe.kmumamusumemc"
+    fi
+  fi
+  if [ -d "/data/data/com.komoe.umamusumeofficial" ]; then
+    INSTALLED_ABI=$(get_installed_abi "com.komoe.umamusumeofficial")
+    if [ "$INSTALLED_ABI" = "armeabi-v7a" ]; then
+      copy_lib "com.komoe.umamusumeofficial"
+      else
+      copy_lib64 "com.komoe.umamusumeofficial"
     fi
   fi
 fi
