@@ -2489,6 +2489,9 @@ void GallopUtil_GotoTitleOnError_hook(Il2CppString * /*text*/) {
     if (Game::currentGameRegion == Game::Region::TWN) {
         message = GotoTitleErrorHan;
     }
+	if (Game::currentGameRegion == Game::Region::CHN) {
+        message = GotoTitleErrorHan;
+    }
     dialogData = reinterpret_cast<Il2CppObject *(*)(Il2CppObject *thisObj,
                                                     unsigned long headerTextId,
                                                     Il2CppString *message,
@@ -4400,6 +4403,13 @@ void hookMethods() {
 
     if (g_dump_msgpack) {
         if(Game::currentGameRegion == Game::Region::TWN) {
+            auto DecompressResponse_BUMA_addr = il2cpp_symbols::get_method_pointer(
+                    "umamusume.dll", "Gallop",
+                    "HttpHelper", "DecompressResponse_BUMA", 1
+            );
+            ADD_HOOK(DecompressResponse_BUMA);
+        }
+        else if(Game::currentGameRegion == Game::Region::CHN) {
             auto DecompressResponse_BUMA_addr = il2cpp_symbols::get_method_pointer(
                     "umamusume.dll", "Gallop",
                     "HttpHelper", "DecompressResponse_BUMA", 1

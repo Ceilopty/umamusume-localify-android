@@ -16,10 +16,14 @@ namespace Game {
         JAP,
         KOR,
         TWN,
+        CHN,
     };
 
     enum class Store {
         Google,
+        // Only Twn
+        Official,
+        BiliBili,
         // Ex. OneStore, MyCard...
         Other
     };
@@ -31,6 +35,8 @@ namespace Game {
     inline auto GamePackageNameKor = "com.kakaogames.umamusume"s;
     inline auto GamePackageNameTwnGoogle = "com.komoe.kmumamusumegp"s;
     inline auto GamePackageNameTwnMyCard = "com.komoe.kmumamusumemc"s;
+    inline auto GamePackageNameTwnOfficial = "com.komoe.umamusumeofficial"s;
+    inline auto GamePackageNameChnBili = "com.bilibili.umamusu"s;
 
     static bool IsPackageNameEqualsByGameRegion(const char *pkgNm, Region gameRegion) {
         string pkgNmStr = string(pkgNm);
@@ -52,6 +58,13 @@ namespace Game {
                     return true;
                 }
                 break;
+            case Region::CHN:
+                if (pkgNmStr == GamePackageNameChnBili) {
+                    currentGameRegion = Region::CHN;
+                    currentGameStore = Store::BiliBili;
+                    return true;
+                }
+                break;
             case Region::TWN:
                 if (pkgNmStr == GamePackageNameTwnGoogle) {
                     currentGameRegion = Region::TWN;
@@ -60,6 +73,10 @@ namespace Game {
                 } else if (pkgNmStr == GamePackageNameTwnMyCard) {
                     currentGameRegion = Region::TWN;
                     currentGameStore = Store::Other;
+                    return true;
+                } else if (pkgNmStr == GamePackageNameTwnOfficial){
+                    currentGameRegion = Region::TWN;
+                    currentGameStore = Store::Official;
                     return true;
                 }
                 break;
@@ -75,11 +92,17 @@ namespace Game {
             return GamePackageName;
         if (gameRegion == Region::KOR)
             return GamePackageNameKor;
+        if (gameRegion == Region::CHN)
+            return GamePackageNameChnBili;
         if (gameRegion == Region::TWN) {
-            if (gameStore == Store::Other) {
-                return GamePackageNameTwnMyCard;
+            switch (gameStore) {
+                case Store::Google:
+                    return GamePackageNameTwnGoogle;
+                case Store::Official:
+                    return GamePackageNameTwnOfficial;
+                case Store::Other:
+                    return GamePackageNameTwnMyCard;
             }
-            return GamePackageNameTwnGoogle;
         }
         return "";
     }
@@ -107,6 +130,14 @@ namespace Game {
         }
         if (access(
                 "/data/data/"s
+                        .append(GetPackageNameByGameRegionAndGameStore(Region::CHN,
+                                                                       Store::BiliBili)).append(
+                        "/cache").data(),
+                F_OK) == 0) {
+            return Region::CHN;
+        }
+        if (access(
+                "/data/data/"s
                         .append(GetPackageNameByGameRegionAndGameStore(Region::TWN,
                                                                        Store::Google)).append(
                         "/cache").data(),
@@ -120,6 +151,15 @@ namespace Game {
                         "/cache").data(),
                 F_OK) == 0) {
             currentGameStore = Store::Other;
+            return Region::TWN;
+        }
+        if (access(
+                "/data/data/"s
+                        .append(GetPackageNameByGameRegionAndGameStore(Region::TWN,
+                                                                       Store::Official)).append(
+                        "/cache").data(),
+                F_OK) == 0) {
+            currentGameStore = Store::Official;
             return Region::TWN;
         }
 
